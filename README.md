@@ -5,12 +5,13 @@
 [![ci](https://github.com/bn222/pl-flip/actions/workflows/ci.yml/badge.svg)](https://github.com/bn222/pl-flip/actions/workflows/ci.yml)
 
 `pl-flip` is a [_ChRIS_](https://chrisproject.org/)
-_ds_ plugin which takes in ...  as input files and
-creates ... as output files.
+_ds_ plugin which takes in images  as input files and
+creates flipped images as output files.
 
 ## Abstract
 
-...
+Simple tool to flip images vertically or horizontally as specified
+by argument
 
 ## Installation
 
@@ -36,19 +37,17 @@ singularity exec docker://bn222/pl-flip flip --help
 
 ## Examples
 
-`flip` requires two positional arguments: a directory containing
-input data, and a directory where to create output data.
-First, create the input directory and move input data into it.
+`flip` requires three positional arguments: a direction
+(set to `horizontal`, `vertical` or `both`), a directory
+containing input data, and a directory where to create
+output data. First, create the input directory and move
+input data into it.
 
 ```shell
 mkdir incoming/ outgoing/
 mv some.dat other.dat incoming/
-singularity exec docker://bn222/pl-flip:latest flip [--args] incoming/ outgoing/
+singularity exec docker://bn222/pl-flip:latest flip DIRECTION incoming/ outgoing/
 ```
-
-## Development
-
-Instructions for developers.
 
 ### Building
 
@@ -61,12 +60,13 @@ docker build -t localhost/bn222/pl-flip .
 ### Running
 
 Mount the source code `flip.py` into a container to try out changes without rebuild.
+The argument "both" can be replaced by "horizontal" or "vertical".
 
 ```shell
 docker run --rm -it --userns=host -u $(id -u):$(id -g) \
     -v $PWD/flip.py:/usr/local/lib/python3.10/site-packages/flip.py:ro \
     -v $PWD/in:/incoming:ro -v $PWD/out:/outgoing:rw -w /outgoing \
-    localhost/bn222/pl-flip flip /incoming /outgoing
+    localhost/bn222/pl-flip flip both /incoming /outgoing
 ```
 
 ### Testing

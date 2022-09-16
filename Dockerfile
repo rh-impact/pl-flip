@@ -9,6 +9,8 @@ LABEL org.opencontainers.image.authors="bn222 <bnemeth@redhat.com>" \
 
 WORKDIR /usr/local/src/pl-flip
 
+RUN apt update && apt-get -y install imagemagick
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
